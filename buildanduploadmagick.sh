@@ -75,6 +75,7 @@ upload_file() {
 
     if [ $? -eq 0 ]; then
         echo "Upload successful."
+        echo "File name: ${file_to_upload}"
         return 0
     else
         echo "Upload failed."
