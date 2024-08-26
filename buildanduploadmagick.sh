@@ -35,6 +35,8 @@ build_and_package() {
     local configure_dir="$1"
     local tar_path="$2"
     local prefix="$3"
+    local prefix_folder="$4"
+
 
     if [ ! -d "$configure_dir" ]; then
         echo "Directory '$configure_dir' not found."
@@ -58,7 +60,10 @@ build_and_package() {
     make install || return 1
 
     cd $HOME
-    tar -cvf "${tar_path}/${BASE_FILENAME}.tar" "${prefix}"
+    echo $prefix
+    echo $prefix_folder
+    echo $TAR_PATH
+    tar -cvf "${tar_path}/${BASE_FILENAME}.tar" "${prefix_folder}"
 }
 
 upload_file() {
@@ -98,7 +103,7 @@ if [ -z "$FTP_SERVER" ] || [ -z "$FTP_USER" ] || [ -z "$FTP_PASS" ] || [ -z "$FT
 fi
 
 # Call the build and packaging function
-if build_and_package "$CONFIGURE_DIR" "$TAR_PATH" "$PREFIX"; then
+if build_and_package "$CONFIGURE_DIR" "$TAR_PATH" "$PREFIX" $PREFIX_NAME; then
     # If build_and_package succeeds, call the upload function
     upload_file "$FILE_TO_UPLOAD"
 else
